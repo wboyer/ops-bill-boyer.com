@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd /tmp
+mkdir ruby
+cd ruby
+
+wget -nv http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p353.tar.gz
+gunzip < ruby-2.0.0-p353.tar.gz | tar xvf -
+cd ruby-2.0.0-p353
+./configure --prefix=/usr
+make
+make install
+apt-get install -y ruby-rvm
+rvm package install openssl

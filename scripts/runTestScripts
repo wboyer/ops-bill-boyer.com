@@ -1,0 +1,15 @@
+#!/bin/bash --noprofile
+
+for f in ./*
+do
+  echo Running test "$f"...
+  ./$f
+  if [ $? == 0 ]; then
+    echo "...success.";
+  else
+    echo "...failure.";
+    exit 1;
+  fi
+done
+
+exit 0

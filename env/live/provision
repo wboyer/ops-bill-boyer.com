@@ -1,0 +1,9 @@
+#!/bin/bash
+
+path=/vagrant-ops/scripts/provision/ubuntu
+
+$path/base
+$path/ruby
+$path/aws
+$path/vagrant
+$path/jenkins /vagrant/jobs

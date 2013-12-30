@@ -1,0 +1,10 @@
+#!/bin/bash --noprofile
+
+cd /usr/local/bin
+wget -nv http://stedolan.github.io/jq/download/linux64/jq
+chmod +x jq
+
+cat >> ~/.bashrc <<EOF
+alias rmt='rm -f *~'
+alias h='history'
+EOF

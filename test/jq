@@ -1,0 +1,7 @@
+#!/bin/bash --noprofile
+
+if [ "`echo '{ \"a\": \"b\" }' | jq -r \".a\"`" == "b" ]; then
+  exit 0;
+else
+  exit 1;
+fi

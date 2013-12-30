@@ -1,0 +1,10 @@
+#!/usr/bin/ruby
+
+hash = Hash.new
+hash["test"] = "ok"
+
+if hash.rassoc("ok")[0] == "test"
+  exit 0
+else
+  exit 1
+end

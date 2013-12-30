@@ -1,0 +1,3 @@
+#!/bin/bash --noprofile
+
+vagrant -v | grep Vagrant >& /dev/null
