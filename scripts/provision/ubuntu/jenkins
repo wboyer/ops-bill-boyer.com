@@ -1,11 +1,5 @@
 #!/bin/bash --noprofile
 
 apt-get -y install jenkins
+echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 sleep 60
-
-jobDir=$1;
-
-for f in $jobDir/*
-do
-  java -jar /usr/share/jenkins/cli/java/cli.jar -s http://localhost:8080/ create-job "$f" < "$f"
-done

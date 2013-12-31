@@ -1,9 +1,12 @@
 #!/bin/bash
 
-path=/vagrant-ops/scripts/provision/ubuntu
+path=/vagrant-scripts/provision/ubuntu
 
 $path/base
 $path/ruby
+$path/jenkins
 $path/aws
-$path/vagrant
-$path/jenkins /vagrant/jobs
+
+$path/aws-user jenkins /var/lib/jenkins
+sudo -u jenkins $path/vagrant
+sudo -u jenkins $path/jenkins-user /vagrant/jobs

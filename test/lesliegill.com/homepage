@@ -1,0 +1,3 @@
+#!/bin/bash --noprofile
+
+curl -s 'http://69.195.124.62/~lesliegi/residential/tribeca-loft/' | grep '277 Broadway' >& /dev/null
