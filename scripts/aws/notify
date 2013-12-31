@@ -1,0 +1,7 @@
+#!/bin/bash --noprofile
+
+source ~/.profile
+
+message=$1
+
+aws sns publish --topic-arn arn:aws:sns:us-west-2:529276853183:bill-boyer-com-status --message "$message"

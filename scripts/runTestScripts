@@ -8,6 +8,7 @@ do
     echo "...success.";
   else
     echo "...failure.";
+	/vagrant-scripts/aws/notify "Test $f failed."
     exit 1;
   fi
 done
