@@ -12,3 +12,5 @@ make
 make install
 apt-get install -y ruby-rvm
 rvm package install openssl
+
+gem install unf
