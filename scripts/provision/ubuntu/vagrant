@@ -1,6 +1,5 @@
 #!/bin/bash --noprofile
 
-sudo wget -nv http://files.vagrantup.com/packages/a40522f5fabccb9ddabad03d836e120ff5d14093/vagrant_1.3.5_x86_64.deb
-sudo dpkg -i vagrant_1.3.5_x86_64.deb
-sudo vagrant plugin install vagrant-aws
-sudo vagrant box add aws https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+wget -nv http://files.vagrantup.com/packages/a40522f5fabccb9ddabad03d836e120ff5d14093/vagrant_1.3.5_x86_64.deb
+dpkg -i vagrant_1.3.5_x86_64.deb
+vagrant plugin install vagrant-aws

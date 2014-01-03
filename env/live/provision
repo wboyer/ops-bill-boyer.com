@@ -6,7 +6,8 @@ $path/base
 $path/ruby
 $path/jenkins
 $path/aws
+$path/vagrant
 
-$path/aws-user jenkins /var/lib/jenkins
-sudo -u jenkins $path/vagrant
+$path/aws-user jenkins jenkins /var/lib/jenkins
+$path/vagrant-user jenkins jenkins /var/lib/jenkins
 sudo -u jenkins $path/jenkins-user /vagrant/jobs

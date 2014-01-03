@@ -1,0 +1,12 @@
+#!/bin/bash --noprofile
+
+user=$1
+group=$2
+homeDir=$3
+
+export VAGRANT_HOME=$homeDir/.vagrant.d
+
+vagrant box add aws https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+
+chown -R $user $VAGRANT_HOME/boxes
+chgrp -R $group $VAGRANT_HOME/boxes
