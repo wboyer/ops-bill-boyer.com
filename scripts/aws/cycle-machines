@@ -1,0 +1,113 @@
+#!/usr/bin/ruby
+
+require 'JSON'
+
+if !File.exist?("Vagrantfile")
+   puts "No Vagranfile found."
+   exit 1
+end
+
+machineName = ARGV[0]
+$loadBalancerName = ARGV[1]
+
+minMachines = (ARGV[2] || "1").to_i
+maxMachines = (ARGV[3] || "1").to_i
+
+$scriptPath = File.dirname(__FILE__)
+
+if !machineName
+   puts "Usage: cycle-machines <machine name> <load balancer name> [<minMachines> [maxMachines]]"
+   exit 1
+end
+
+if (minMachines > maxMachines) || (minMachines < 1) || (maxMachines > 9)
+   puts "minMachines must be less than maxMachines, and both must be between 1 and 9."
+   exit 1
+end
+
+$awsInstances = JSON.parse(`#{$scriptPath}/machine-status #{machineName} #{$loadBalancerName}`)
+
+$vagrantMachines = Array.new(9)
+$vagrantMachinesByAwsId = Hash.new
+
+Dir.glob(".vagrant/machines/[1-9]") do |machineDir|
+  awsIdFile = "#{machineDir}/aws/id"
+  if File.exist?(awsIdFile)
+     awsId = `cat #{awsIdFile}`
+     machine = machineDir[-1].to_i
+     $vagrantMachines[machine-1] = awsId
+     $vagrantMachinesByAwsId[awsId] = machine
+  end
+end
+
+def createMachine()
+  awsId = nil
+  for i in 0..$vagrantMachines.length-1
+    if !$vagrantMachines[i] || !$awsInstances[$vagrantMachines[i]]
+      machine = i + 1
+      puts "creating machine #{machine}..."
+      system("/bin/rm -f .vagrant/machines/#{machine}/aws/id")
+      system("vagrant up #{machine} --provider=aws")
+      awsId = `cat .vagrant/machines/#{machine}/aws/id`
+      $awsInstances[awsId] = "new"
+      $vagrantMachines[i] = awsId
+      $vagrantMachinesByAwsId[awsId] = machine
+      break
+    end
+  end
+
+  if awsId
+    puts "adding #{awsId} to #{$loadBalancerName}"
+    system("#{$scriptPath}/add-machine-to-load-balancer #{awsId} #{$loadBalancerName}")
+  end
+end
+
+def destroyMachine(awsId)
+  puts "removing #{awsId} from #{$loadBalancerName}"
+
+  system("#{$scriptPath}/remove-machine-from-load-balancer #{awsId} #{$loadBalancerName}")
+
+  puts "destroying #{awsId}"
+
+  if !$vagrantMachinesByAwsId[awsId]
+    for i in 0..$vagrantMachines.length-1
+      if !$vagrantMachines[i] || !$awsInstances[$vagrantMachines[i]]
+        machine = i + 1
+
+        if !Dir.exist?(".vagrant/machines/#{machine}")
+           Dir.mkdir(".vagrant/machines/#{machine}")
+        end
+
+        if !Dir.exist?(".vagrant/machines/#{machine}/aws")
+           Dir.mkdir(".vagrant/machines/#{machine}/aws")
+        end
+
+        system("/bin/echo -n #{awsId} > .vagrant/machines/#{machine}/aws/id")
+        $vagrantMachinesByAwsId[awsId] = machine
+        $vagrantMachines[i] = awsId
+        break
+      end
+    end
+  end
+
+  machine = $vagrantMachinesByAwsId[awsId]
+  system("vagrant destroy #{machine} -f")
+  $awsInstances.delete(awsId)
+  $vagrantMachinesByAwsId.delete(awsId)
+  $vagrantMachines[machine-1] = nil
+end
+
+while awsInstance = $awsInstances.rassoc("OutOfService") do
+  destroyMachine(awsInstance[0])
+end
+
+while awsInstance = $awsInstances.rassoc("InService") do
+  if ($awsInstances.length <= minMachines)
+    createMachine()
+  end
+  destroyMachine(awsInstance[0])
+end
+
+while $awsInstances.length < maxMachines do
+  createMachine()
+end

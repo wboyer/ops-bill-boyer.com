@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+require 'JSON'
+
+machineName = ARGV[0]
+loadBalancerName = ARGV[1]
+
+machineStatus = Hash.new
+
+taggedMachines = JSON.parse(`aws ec2 describe-instances --filter "Name=tag:Name,Values=#{machineName}" | jq -s "[.[] | .Reservations[].Instances[] | {InstanceId, State: .State.Name}]"`)
+
+taggedMachines.each do |machine|
+  instanceId = machine["InstanceId"]
+  state = machine["State"]
+  next if (state == 'shutting down') || (state == 'terminated')
+  state = 'OutOfService'
+  machineStatus[instanceId] = state
+end
+
+elbMachines = JSON.parse(`aws elb describe-instance-health --load-balancer-name #{loadBalancerName} | jq "[{InstanceId: .InstanceStates[].InstanceId, State: .InstanceStates[].State}]"`)
+
+elbMachines.each do |machine|
+  instanceId = machine["InstanceId"]
+  state = machine["State"]
+  machineStatus[instanceId] = state
+end
+
+puts JSON.generate(machineStatus)

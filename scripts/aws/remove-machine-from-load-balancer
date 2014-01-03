@@ -1,0 +1,6 @@
+#!/usr/bin/ruby
+
+machineId = ARGV[0]
+loadBalancerName = ARGV[1]
+
+system("aws elb deregister-instances-from-load-balancer --load-balancer-name #{loadBalancerName} --instances #{machineId}")
