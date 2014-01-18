@@ -1,5 +1,9 @@
 #!/bin/bash --noprofile
 
+apt-get install -y libssl-dev
+apt-get install -y libreadline-dev
+apt-get install -y zlib1g-dev
+
 cd /tmp
 mkdir ruby
 cd ruby
@@ -14,3 +18,4 @@ apt-get install -y ruby-rvm
 rvm package install openssl
 
 gem install unf
+gem install iconv

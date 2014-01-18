@@ -1,5 +1,11 @@
 #!/bin/bash --noprofile
 
+/bin/rm -f /var/lib/apt/lists/lock 
+/bin/rm -f /var/cache/apt/archives/lock
+/bin/rm -f /var/lib/dpkg/lock
+
+apt-get -y update
+
 cd /usr/local/bin
 wget -nv http://stedolan.github.io/jq/download/linux64/jq
 chmod +x jq

@@ -2,4 +2,7 @@
 
 apt-get -y install jenkins
 echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-sleep 60
+sleep 30
+java -jar /usr/share/jenkins/cli/java/cli.jar -s http://localhost:8080/ install-plugin Git
+java -jar /usr/share/jenkins/cli/java/cli.jar -s http://localhost:8080/ safe-restart
+sleep 30

@@ -8,6 +8,6 @@ $path/jenkins
 $path/aws
 $path/vagrant
 
-$path/aws-user jenkins jenkins /var/lib/jenkins
-$path/vagrant-user jenkins jenkins /var/lib/jenkins
+$path/aws-user root root /root
+
 sudo -u jenkins $path/jenkins-user /vagrant/jobs
