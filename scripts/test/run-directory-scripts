@@ -1,14 +1,16 @@
 #!/bin/bash --noprofile
 
-for f in ./*
+dir=ARGV[0]
+
+for f in $dir/*
 do
   echo Running test "$f"...
-  ./$f
+  $dir/$f
   if [ $? == 0 ]; then
     echo "...success.";
   else
     echo "...failure.";
-	/vagrant-scripts/aws/notify "Test $f failed."
+	/vagrant-scripts/infrastructure/aws/notify "Test $f failed."
     exit 1;
   fi
 done
