@@ -1,4 +1,4 @@
 alias create='vagrant up --provider=aws'
 alias destroy='vagrant destroy -f'
 alias bounce='vagrant reload'
-alias cycle='../../scripts/aws/cycle-machines ops.bill-boyer.com ops-bill-boyer-com 1 1'
+alias cycle='../../scripts/infrastructure/aws/cycle-machines ops.bill-boyer.com ops-bill-boyer-com 1 1'
