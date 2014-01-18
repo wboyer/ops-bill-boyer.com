@@ -1,0 +1,27 @@
+#!/bin/bash --noprofile
+
+apt-get -y install rails
+
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
+apt-get -y install apt-transport-https
+
+cat > /etc/apt/sources.list.d/passenger.list <<EOF
+deb https://oss-binaries.phusionpassenger.com/apt/passenger precise main
+EOF
+
+apt-get -y update
+
+apt-get -y install passenger
+gem install passenger
+
+cat > /etc/rc.local <<EOF
+#!/bin/sh -e
+passenger start --daemonize --port 81
+exit 0
+EOF
+
+mkdir ~/apps
+cd ~/apps
+rails main
+cd main
+passenger start --daemonize --port 81

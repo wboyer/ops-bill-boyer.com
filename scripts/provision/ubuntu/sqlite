@@ -1,0 +1,5 @@
+#!/bin/bash --noprofile
+
+apt-get -y install sqlite3
+apt-get -y install libsqlite3-ruby
+gem install sqlite3-ruby

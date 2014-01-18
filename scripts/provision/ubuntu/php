@@ -1,0 +1,7 @@
+#!/bin/bash --noprofile
+
+apt-get -y install php5
+apt-get -y install php5-mysql
+apt-get -y install curl libcurl3 libcurl3-dev php5-curl
+
+service apache2 restart

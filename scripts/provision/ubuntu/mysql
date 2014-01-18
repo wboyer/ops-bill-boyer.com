@@ -1,0 +1,12 @@
+#!/bin/bash --noprofile
+
+apt-get -y install mysql-server-5.5
+
+dd if=/dev/zero of=/swapfile bs=1M count=2048
+mkswap /swapfile
+swapon /swapfile
+
+echo >> /etc/fstab
+cat >> /etc/fstab <<EOF
+/swapfile swap swap defaults 0 0
+EOF

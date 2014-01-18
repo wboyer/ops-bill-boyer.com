@@ -1,0 +1,38 @@
+#!/bin/bash --noprofile
+
+serverName=$1
+
+apt-get -y install apache2
+
+rm -rf /srv/www
+mkdir /srv/www
+cp -r /var/www /srv/www/htdocs
+sed -i -e 's/\/var\/www/\/srv\/www\/htdocs/' /etc/apache2/sites-available/default
+
+cat > /etc/apache2/sites-available/default <<EOF
+<VirtualHost *:80>
+  ServerAdmin webmaster@localhost
+  ServerName $serverName
+
+  DocumentRoot /srv/www/htdocs
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride All
+  </Directory>
+
+  <Directory /srv/www/htdocs/>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+  </Directory>
+
+  ErrorLog /var/log/apache2/error.log
+  LogLevel warn
+  CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
+EOF
+
+a2enmod rewrite
+
+service apache2 start
