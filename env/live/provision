@@ -1,8 +1,8 @@
 #!/bin/bash
 
-path=/vagrant-scripts/provision/ubuntu
+path=/vagrant-mnt/ops/scripts/provision/ubuntu
 
-$path/base
+$path/base ops.bill-boyer.com live
 $path/ruby
 $path/jenkins
 $path/aws

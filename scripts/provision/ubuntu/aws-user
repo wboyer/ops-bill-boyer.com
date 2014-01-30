@@ -5,8 +5,8 @@ group=$2
 homeDir=$3
 
 cat >> $homeDir/.profile <<EOF
-export AWS_ACCESS_KEY=`cat /vagrant-aws/keys.json | jq -r .access_key_id`
-export AWS_SECRET_KEY=`cat /vagrant-aws/keys.json | jq -r .secret_access_key`
+export AWS_ACCESS_KEY=`cat /vagrant-mnt/ops/aws/keys.json | jq -r .access_key_id`
+export AWS_SECRET_KEY=`cat /vagrant-mnt/ops/aws/keys.json | jq -r .secret_access_key`
 export AWS_PRIVATE_KEY_PATH=$homeDir/.aws-pem
 export AWS_CONFIG_FILE=$homeDir/.aws-config
 EOF
@@ -14,12 +14,12 @@ chown $user $homeDir/.profile
 chgrp $group $homeDir/.profile
 chmod 600 $homeDir/.profile
 
-cp /vagrant-aws/bill-boyer.com.pem.txt $homeDir/.aws-pem
+cp /vagrant-mnt/ops/aws/bill-boyer.com.pem.txt $homeDir/.aws-pem
 
 cat >> $homeDir/.aws-config <<EOF
 [default]
-aws_access_key_id = `cat /vagrant-aws/keys.json | jq -r .access_key_id`
-aws_secret_access_key = `cat /vagrant-aws/keys.json | jq -r .secret_access_key`
+aws_access_key_id = `cat /vagrant-mnt/ops/aws/keys.json | jq -r .access_key_id`
+aws_secret_access_key = `cat /vagrant-mnt/ops/aws/keys.json | jq -r .secret_access_key`
 region = us-west-2
 EOF
 chown $user $homeDir/.aws-config

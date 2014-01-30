@@ -17,7 +17,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>/vagrant-scripts/test/run-directory-scripts /vagrant-test/www.bill-boyer.com</command>
+      <command>/vagrant-mnt/ops/scripts/test/run-directory-scripts /vagrant-mnt/ops/test/www.bill-boyer.com</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

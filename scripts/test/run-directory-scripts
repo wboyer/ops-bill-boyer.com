@@ -10,7 +10,7 @@ do
     echo "...success.";
   else
     echo "...failure.";
-	/vagrant-scripts/infrastructure/aws/notify "Test $f failed."
+	/vagrant-mnt/ops/scripts/infrastructure/aws/notify "Test $f failed."
     exit 1;
   fi
 done
