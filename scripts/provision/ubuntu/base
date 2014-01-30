@@ -1,16 +1,27 @@
 #!/bin/bash --noprofile
 
+if [ $# != 2 ] ;
+then
+	echo "Usage: base <site> <env>"
+	exit 1
+fi
+
+site=$1
+env=$2
+
 /bin/rm -f /var/lib/apt/lists/lock 
 /bin/rm -f /var/cache/apt/archives/lock
 /bin/rm -f /var/lib/dpkg/lock
 
 apt-get -y update
+apt-get install -y dos2unix
 
 cd /usr/local/bin
 wget -nv http://stedolan.github.io/jq/download/linux64/jq
 chmod +x jq
 
 cat >> ~/.profile <<EOF
+export PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@$site($env):\w:: "
 alias rmt='rm -f *~'
 alias h='history'
 EOF
