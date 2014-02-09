@@ -15,6 +15,7 @@ env=$2
 
 apt-get -y update
 apt-get install -y dos2unix
+apt-get install -y rsync
 
 cd /usr/local/bin
 wget -nv http://stedolan.github.io/jq/download/linux64/jq
