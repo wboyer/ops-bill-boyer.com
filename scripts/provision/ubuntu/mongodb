@@ -9,4 +9,3 @@ EOF
 apt-get -y update
 
 sudo apt-get install mongodb-10gen
-npm install -g mongodb
