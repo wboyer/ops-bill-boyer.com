@@ -137,7 +137,7 @@ end
 while awsInstance = $awsInstances.rassoc("InService") do
   if recycle && ($awsInstances.length > minMachines)
     recycleMachine(awsInstance[0])
-    continue
+    next
   end
 
   if ($awsInstances.length <= minMachines)
