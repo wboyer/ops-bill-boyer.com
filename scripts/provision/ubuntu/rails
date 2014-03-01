@@ -20,8 +20,8 @@ passenger start --daemonize --port 81
 exit 0
 EOF
 
-mkdir ~/apps
-cd ~/apps
+mkdir /srv/rails
+cd /srv/rails
 rails main
 cd main
 passenger start --daemonize --port 81
