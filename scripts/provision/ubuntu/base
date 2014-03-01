@@ -12,6 +12,8 @@ env=$2
 /bin/rm -f /var/lib/apt/lists/lock 
 /bin/rm -f /var/cache/apt/archives/lock
 /bin/rm -f /var/lib/dpkg/lock
+sudo dpkg --configure -a
+sudo apt-get -f install
 
 apt-get -y update
 apt-get install -y dos2unix
