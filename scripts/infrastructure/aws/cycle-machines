@@ -125,6 +125,7 @@ def recycleMachine(awsId)
   machine = $vagrantMachinesByAwsId[awsId]
 
   system("vagrant ssh -c /vagrant/deploy #{machine}")
+  $awsInstances[awsId] = "done"
 
   puts "adding #{awsId} to #{$loadBalancerName}"
   system("#{$scriptPath}/add-machine-to-load-balancer #{awsId} #{$loadBalancerName}")
