@@ -27,5 +27,4 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "~/.aws", "/vagrant-mnt/ops/aws"
 
   config.vm.define "1", primary: true
-  config.vm.define "2"
 end
