@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'JSON'
+require 'json'
 
 if !File.exist?("Vagrantfile")
    puts "No Vagranfile found."
@@ -10,17 +10,19 @@ end
 machineName = ARGV[0]
 $loadBalancerName = ARGV[1]
 
-minMachines = (ARGV[2] || "1").to_i
-maxMachines = (ARGV[3] || "1").to_i
+recycle = (ARGV[2] == 'true')
+
+minMachines = (ARGV[3] || "1").to_i
+maxMachines = (ARGV[4] || "1").to_i
 
 $scriptPath = File.dirname(__FILE__)
 
 if !machineName
-   puts "Usage: cycle-machines <machine name> <load balancer name> [<minMachines> [maxMachines]]"
+   puts "Usage: cycle-machines <machine name> <load balancer name> <recycle> [<minMachines> [maxMachines]]"
    exit 1
 end
 
-if (minMachines > maxMachines) || (minMachines < 1) || (maxMachines > 9)
+if !minMachines || !maxMachines || (minMachines > maxMachines) || (minMachines < 1) || (maxMachines > 9)
    puts "minMachines must be less than maxMachines, and both must be between 1 and 9."
    exit 1
 end
@@ -29,6 +31,14 @@ $awsInstances = JSON.parse(`#{$scriptPath}/machine-status #{machineName} #{$load
 
 $vagrantMachines = Array.new(9)
 $vagrantMachinesByAwsId = Hash.new
+
+if !Dir.exist?(".vagrant")
+   Dir.mkdir(".vagrant")
+end
+
+if !Dir.exist?(".vagrant/machines")
+   Dir.mkdir(".vagrant/machines")
+end
 
 Dir.glob(".vagrant/machines/[1-9]") do |machineDir|
   awsIdFile = "#{machineDir}/aws/id"
@@ -45,9 +55,13 @@ def createMachine()
   for i in 0..$vagrantMachines.length-1
     if !$vagrantMachines[i] || !$awsInstances[$vagrantMachines[i]]
       machine = i + 1
+
       puts "creating machine #{machine}..."
       system("/bin/rm -f .vagrant/machines/#{machine}/aws/id")
       system("vagrant up #{machine} --provider=aws")
+
+      system("vagrant ssh -c /vagrant/deploy #{machine}")
+
       awsId = `cat .vagrant/machines/#{machine}/aws/id`
       $awsInstances[awsId] = "new"
       $vagrantMachines[i] = awsId
@@ -62,13 +76,7 @@ def createMachine()
   end
 end
 
-def destroyMachine(awsId)
-  puts "removing #{awsId} from #{$loadBalancerName}"
-
-  system("#{$scriptPath}/remove-machine-from-load-balancer #{awsId} #{$loadBalancerName}")
-
-  puts "destroying #{awsId}"
-
+def ensureMachineIsKnownToVagrant(awsId)
   if !$vagrantMachinesByAwsId[awsId]
     for i in 0..$vagrantMachines.length-1
       if !$vagrantMachines[i] || !$awsInstances[$vagrantMachines[i]]
@@ -83,18 +91,43 @@ def destroyMachine(awsId)
         end
 
         system("/bin/echo -n #{awsId} > .vagrant/machines/#{machine}/aws/id")
+
         $vagrantMachinesByAwsId[awsId] = machine
         $vagrantMachines[i] = awsId
         break
       end
     end
   end
+end
 
+def destroyMachine(awsId)
+  puts "removing #{awsId} from #{$loadBalancerName}"
+  system("#{$scriptPath}/remove-machine-from-load-balancer #{awsId} #{$loadBalancerName}")
+
+  puts "destroying #{awsId}"
+  ensureMachineIsKnownToVagrant(awsId)
   machine = $vagrantMachinesByAwsId[awsId]
+
   system("vagrant destroy #{machine} -f")
+  system("/bin/rm -rf .vagrant/machines/#{machine}")
+
   $awsInstances.delete(awsId)
   $vagrantMachinesByAwsId.delete(awsId)
   $vagrantMachines[machine-1] = nil
+end
+
+def recycleMachine(awsId)
+  puts "removing #{awsId} from #{$loadBalancerName}"
+  system("#{$scriptPath}/remove-machine-from-load-balancer #{awsId} #{$loadBalancerName}")
+
+  puts "recycling #{awsId}"
+  ensureMachineIsKnownToVagrant(awsId)
+  machine = $vagrantMachinesByAwsId[awsId]
+
+  system("vagrant ssh -c /vagrant/deploy #{machine}")
+
+  puts "adding #{awsId} to #{$loadBalancerName}"
+  system("#{$scriptPath}/add-machine-to-load-balancer #{awsId} #{$loadBalancerName}")
 end
 
 while awsInstance = $awsInstances.rassoc("OutOfService") do
@@ -102,10 +135,18 @@ while awsInstance = $awsInstances.rassoc("OutOfService") do
 end
 
 while awsInstance = $awsInstances.rassoc("InService") do
+  if recycle && ($awsInstances.length > minMachines)
+    recycleMachine(awsInstance[0])
+    continue
+  end
+
   if ($awsInstances.length <= minMachines)
     createMachine()
   end
-  destroyMachine(awsInstance[0])
+
+  if !recycle || ($awsInstances.length > maxMachines)
+    destroyMachine(awsInstance[0])
+  end
 end
 
 while $awsInstances.length < maxMachines do

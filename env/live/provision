@@ -7,6 +7,8 @@ $path/ruby
 $path/jenkins
 $path/aws
 $path/vagrant
+$path/node
+$path/grunt
 
 $path/aws-user root root /root
 

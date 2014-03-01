@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'JSON'
+require 'json'
 
 machineName = ARGV[0]
 loadBalancerName = ARGV[1]

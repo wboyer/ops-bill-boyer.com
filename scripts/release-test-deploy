@@ -1,0 +1,55 @@
+#!/bin/bash --noprofile
+
+. ~root/.profile
+export VAGRANT_HOME=~root/.vagrant.d
+
+usage="Usage: release-test-deploy <site> <env> <recycle> [--github <user> <repo> <tag>]"
+
+if [ $# -lt 3 ] ;
+then
+	echo $usage
+	exit 1
+fi
+
+site=$1
+env=$2
+recycle=$3
+shift 3
+
+cd ~root
+mkdir -p sites/$site
+cd sites/$site
+
+if [ "$1" = "--github" ] ;
+then
+	shift
+	if [ $# -ne 3 ] ;
+	then
+		echo $usage
+		exit 1
+	fi
+
+	user=$1
+	repo=$2
+	tag=$3
+
+	/bin/rm -rf ${repo}-${tag}
+	curl -s -L https://github.com/$user/$repo/archive/v$tag.tar.gz | gunzip | tar xf -
+	cd ${repo}-${tag}
+elif [ "$1" = "--maven" ] ;
+then
+	echo "Not implemented yet".
+	exit 1
+fi
+
+if [ ! -d env/$env ] ;
+then
+	echo Env \"$env\" not found.
+	exit 1
+fi
+
+./env/$env/release
+./env/$env/test
+
+cd env/$env
+./deploy-all $recycle
