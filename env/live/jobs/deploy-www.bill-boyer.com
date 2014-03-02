@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
   <description></description>
@@ -27,7 +28,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>sudo /vagrant-mnt/ops/scripts/release-test-deploy www.bill-boyer.com qa $recycle --github wboyer www-bill-boyer.com $tag</command>
+      <command>sudo /vagrant-mnt/ops/scripts/deploy www.bill-boyer.com live $recycle --github www-bill-boyer.com $tag</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
