@@ -1,0 +1,58 @@
+#!/bin/bash --noprofile
+
+. ~root/.profile
+export VAGRANT_HOME=~root/.vagrant.d
+
+usage="Usage: deploy <site> <env> <recycle> [--github <repo> <tag>]"
+
+if [ $# -lt 3 ] ;
+then
+	echo $usage
+	exit 1
+fi
+
+site=$1
+env=$2
+recycle=$3
+shift 3
+
+cd ~root
+if [ ! -d sites/$site ] ;
+then
+	echo \"sites/$site\" not found.
+	exit 1
+fi
+cd sites/$site
+
+if [ "$1" = "--github" ] ;
+then
+	shift
+	if [ $# -ne 2 ] ;
+	then
+		echo $usage
+		exit 1
+	fi
+
+	repo=$1
+	tag=$2
+
+	if [ ! -d ${repo}-${tag} ] ;
+	then
+		echo \"${repo}-${tag}\" not found.
+		exit 1
+	fi
+	cd ${repo}-${tag}
+elif [ "$1" = "--maven" ] ;
+then
+	echo "Not implemented yet".
+	exit 1
+fi
+
+if [ ! -d env/$env ] ;
+then
+	echo Env \"$env\" not found.
+	exit 1
+fi
+
+cd env/$env
+./deploy-all $recycle
