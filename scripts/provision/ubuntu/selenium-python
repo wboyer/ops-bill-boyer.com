@@ -1,0 +1,4 @@
+#!/bin/bash --noprofile
+
+apt-get install -y firefox
+pip install selenium

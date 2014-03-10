@@ -13,6 +13,8 @@ $path/aws
 $path/vagrant
 $path/node
 $path/grunt
+$path/xvfb
+$path/selenium-python
 
 $path/aws-user root root /root
 
