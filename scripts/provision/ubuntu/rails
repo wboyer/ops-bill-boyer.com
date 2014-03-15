@@ -1,6 +1,14 @@
 #!/bin/bash --noprofile
 
-apt-get -y install rails
+if [ $# != 1 ] ;
+then
+	echo "Usage: rails <app>"
+	exit 1
+fi
+
+app=$1
+
+gem install rails
 
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
 apt-get -y install apt-transport-https
@@ -11,17 +19,19 @@ EOF
 
 apt-get -y update
 
-apt-get -y install passenger
 gem install passenger
 
 cat > /etc/rc.local <<EOF
 #!/bin/sh -e
+
+cd /srv/rails/$app
 passenger start --daemonize --port 81
+
 exit 0
 EOF
 
 mkdir /srv/rails
 cd /srv/rails
-rails main
-cd main
+rails new $app
+cd $app
 passenger start --daemonize --port 81

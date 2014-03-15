@@ -5,17 +5,16 @@ apt-get install -y libreadline-dev
 apt-get install -y zlib1g-dev
 
 cd /tmp
+/bin/rm -rf ruby
 mkdir ruby
 cd ruby
 
-wget -nv http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p353.tar.gz
-gunzip < ruby-2.0.0-p353.tar.gz | tar xvf -
-cd ruby-2.0.0-p353
+wget -nv http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.1.tar.gz
+gunzip < ruby-2.1.1.tar.gz | tar xf -
+cd ruby-2.1.1
 ./configure --prefix=/usr
 make
 make install
-apt-get install -y ruby-rvm
-rvm package install openssl
 
 gem install unf
 gem install iconv
