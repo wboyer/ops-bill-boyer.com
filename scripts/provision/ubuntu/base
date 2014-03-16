@@ -18,6 +18,8 @@ sudo apt-get -f install
 apt-get -y update
 apt-get install -y dos2unix
 apt-get install -y rsync
+apt-get install -y unzip
+apt-get install -y curl
 
 cd /usr/local/bin
 wget -nv http://stedolan.github.io/jq/download/linux64/jq

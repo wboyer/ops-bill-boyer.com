@@ -1,0 +1,19 @@
+#!/bin/bash --noprofile
+
+cd /srv/www
+/bin/rm -rf wordpress
+
+curl -s http://wordpress.org/wordpress-3.8.1.tar.gz | gunzip | tar xf -
+
+cd /srv/www/wordpress/wp-content/plugins
+wget -nv http://downloads.wordpress.org/plugin/sqlite-integration.1.5.zip
+unzip sqlite-integration.1.5.zip
+/bin/rm sqlite-integration.1.5.zip
+cp sqlite-integration/db.php ..
+
+cd /srv/www/wordpress
+mv wp-config-sample.php wp-config.php
+sed -i -e "s/define('WP_DEBUG', false);/define('WP_DEBUG', false);\n\ndefine('USE_MYSQL', false);/" wp-config.php
+
+cd /srv/www
+chown -R www-data wordpress
