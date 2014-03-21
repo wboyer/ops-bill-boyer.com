@@ -13,6 +13,7 @@ $path/aws
 $path/vagrant
 $path/node
 $path/grunt
+$path/compass
 $path/xvfb
 $path/selenium-python
 
