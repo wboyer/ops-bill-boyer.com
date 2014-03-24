@@ -1,7 +1,26 @@
 #!/bin/bash --noprofile
 
-apt-get install -y libsqlite3-dev
+cd /tmp
+/bin/rm -rf sqlite-autoconf-3080401
+wget -nv https://www.sqlite.org/2014/sqlite-autoconf-3080401.tar.gz
+gunzip < sqlite-autoconf-3080401.tar.gz | tar xvf -
+cd sqlite-autoconf-3080401
+./configure
+make
+make install
+cd /usr/lib/x86_64-linux-gnu/
+/bin/rm -f libsqlite*
+cp /usr/local/lib/libsqlite3.so.0.8.6 .
+ln -s libsqlite3.so.0.8.6 libsqlite3.so.0
+ln -s libsqlite3.so.0.8.6 libsqlite3.so
+
 gem install sqlite3
 
 apt-get install -y php5-sqlite
 service apache2 restart
+
+cd /usr/local/bin
+wget -nv https://www.sqlite.org/2014/sqlite-shell-linux-x86-3080401.zip
+unzip sqlite-shell-linux-x86-3080401.zip
+/bin/rm sqlite-shell-linux-x86-3080401.zip
+
