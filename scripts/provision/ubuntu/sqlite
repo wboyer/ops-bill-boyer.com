@@ -18,9 +18,3 @@ gem install sqlite3
 
 apt-get install -y php5-sqlite
 service apache2 restart
-
-cd /usr/local/bin
-wget -nv https://www.sqlite.org/2014/sqlite-shell-linux-x86-3080401.zip
-unzip sqlite-shell-linux-x86-3080401.zip
-/bin/rm sqlite-shell-linux-x86-3080401.zip
-
