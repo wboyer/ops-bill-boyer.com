@@ -22,8 +22,8 @@ if !machineName
    exit 1
 end
 
-if !minMachines || !maxMachines || (minMachines > maxMachines) || (minMachines < 1) || (maxMachines > 9)
-   puts "minMachines must be less than maxMachines, and both must be between 1 and 9."
+if !minMachines || !maxMachines || (minMachines > maxMachines) || (minMachines < 0) || (maxMachines > 9)
+   puts "minMachines must be less than maxMachines, and both must be between 0 and 9."
    exit 1
 end
 
@@ -58,8 +58,8 @@ def createMachine()
 
       puts "creating machine #{machine}..."
       system("/bin/rm -f .vagrant/machines/#{machine}/aws/id")
-      system("vagrant up #{machine} --provider=aws")
 
+      system("vagrant up #{machine} --provider=aws")
       system("vagrant ssh -c /vagrant/deploy #{machine}")
 
       awsId = `cat .vagrant/machines/#{machine}/aws/id`
@@ -124,7 +124,9 @@ def recycleMachine(awsId)
   ensureMachineIsKnownToVagrant(awsId)
   machine = $vagrantMachinesByAwsId[awsId]
 
+  system("vagrant reload #{machine} --provider=aws")
   system("vagrant ssh -c /vagrant/deploy #{machine}")
+
   $awsInstances[awsId] = "done"
 
   puts "adding #{awsId} to #{$loadBalancerName}"
