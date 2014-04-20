@@ -14,6 +14,5 @@ sleep 30
 
 sed -i -e "s/JENKINS_ARGS=\"--webroot=\$JENKINS_RUN\/war --httpPort=\$HTTP_PORT --ajp13Port=\$AJP_PORT --preferredClassLoader=java.net.URLClassLoader\"/JENKINS_ARGS=\"--webroot=\$JENKINS_RUN\/war --httpPort=\$HTTP_PORT --ajp13Port=\$AJP_PORT --preferredClassLoader=java.net.URLClassLoader --argumentsRealm.admin=admin --argumentsRealm.passwd.admin=$password\"/" /etc/default/jenkins
 
-java -jar /usr/share/jenkins/cli/java/cli.jar -s http://localhost:8080/ install-plugin Git
 java -jar /usr/share/jenkins/cli/java/cli.jar -s http://localhost:8080/ safe-restart
 sleep 30
