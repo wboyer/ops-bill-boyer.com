@@ -1,0 +1,9 @@
+#!/usr/bin/ruby
+
+require 'json'
+
+instanceId = ARGV[0]
+
+address = `aws ec2 describe-instances --instance-ids #{instanceId} | jq -s ".[] | .Reservations[].Instances[] | .PrivateIpAddress"`
+
+puts address[1, address.length-1-2]
