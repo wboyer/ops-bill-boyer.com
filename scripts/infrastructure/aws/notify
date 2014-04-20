@@ -1,6 +1,6 @@
 #!/bin/bash --noprofile
 
-source ~/.profile
+source ~root/.profile
 
 message=$1
 

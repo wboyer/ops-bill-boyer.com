@@ -124,7 +124,7 @@ def recycleMachine(awsId)
   ensureMachineIsKnownToVagrant(awsId)
   machine = $vagrantMachinesByAwsId[awsId]
 
-  system("vagrant reload #{machine} --provider=aws")
+  system("vagrant reload #{machine}")
   system("vagrant ssh -c /vagrant/deploy #{machine}")
 
   $awsInstances[awsId] = "done"
