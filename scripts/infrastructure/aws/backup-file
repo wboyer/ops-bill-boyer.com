@@ -1,0 +1,15 @@
+#!/bin/bash
+
+file=$1
+backupDir='s3:/'$2
+
+backupFile=$backupDir'/'`date +%Y/%m/%d/`$file.`date +%H%M%S`
+
+s3='aws s3 --endpoint-url https://s3.amazonaws.com'
+
+$s3 cp $file $backupFile
+
+tmp=`mktemp`
+echo -n $backupFile > $tmp
+$s3 cp $tmp ${backupDir}/latest
+/bin/rm $tmp
