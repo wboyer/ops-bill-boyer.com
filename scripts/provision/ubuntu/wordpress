@@ -13,7 +13,7 @@ cp sqlite-integration/db.php ..
 
 cd /srv/www/wordpress
 mv wp-config-sample.php wp-config.php
-sed -i -e "s/define('WP_DEBUG', false);/define('WP_DEBUG', false);\n\ndefine('USE_MYSQL', false);/" wp-config.php
+sed -i -e "s/define('WP_DEBUG', false);/define('WP_DEBUG', false);\n\ndefine('USE_MYSQL', false);\ndefine('DB_FILE', 'db.sqlite');/" wp-config.php
 
 cd /srv/www
 chown -R www-data wordpress
