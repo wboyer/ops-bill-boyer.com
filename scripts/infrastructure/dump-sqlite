@@ -1,0 +1,9 @@
+#!/bin/bash
+
+file=$1
+db=$2
+
+tmp=`mktemp`
+echo ".backup $db $tmp" | sqlite3 $file >& /dev/null
+cat $tmp
+rm -rf $tmp

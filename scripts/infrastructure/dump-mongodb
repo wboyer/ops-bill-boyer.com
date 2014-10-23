@@ -1,0 +1,8 @@
+#!/bin/bash
+
+tmp=`mktemp -d`
+cd $tmp
+mongodump >& dump.log
+tar cf - .
+cd
+rm -rf $tmp

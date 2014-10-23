@@ -1,0 +1,18 @@
+#!/bin/bash
+
+host=$1
+keyFile=$2
+backupDir=$3
+
+tmp=`mktemp -d`
+cd $tmp
+
+path='/vagrant-mnt/ops/scripts/infrastructure'
+file=tar.gz
+
+ssh -i $keyFile -o StrictHostKeyChecking=no $host "$path/dump-mongodb" > $file
+
+$path/aws/backup-file $file $backupDir
+
+cd
+rm -rf $tmp

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+host=$1
+keyFile=$2
+file=$3
+backupDir=$4
+
+tmp=`mktemp`
+cd $tmp
+
+path='/vagrant-mnt/ops/scripts/infrastructure'
+
+ssh -i $keyFile -o StrictHostKeyChecking=no $host "$path/dump-sqlite $file main" > dump
+
+$path/aws/backup-file dump $backupDir
+
+cd
+rm -rf $tmp
