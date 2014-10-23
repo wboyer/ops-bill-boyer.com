@@ -1,19 +1,16 @@
-#!/bin/bash --noprofile
+#!/bin/bash -ex
 
 dir=$1
-shift
 
 for file in $dir/*
 do
   echo Running test "$file"...
   $file "$@"
   if [ $? == 0 ]; then
-    echo "...success.";
+    echo "...success."
   else
-    echo "...failure.";
+    echo "...failure."
 	/vagrant-mnt/ops/scripts/infrastructure/aws/notify "Test $file failed."
-    exit 1;
+    exit 1
   fi
 done
-
-exit 0

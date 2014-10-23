@@ -3,7 +3,9 @@
 cd /srv/www
 /bin/rm -rf wordpress
 
-curl -s http://wordpress.org/wordpress-3.8.1.tar.gz | gunzip | tar xf -
+curl -L -s http://wordpress.org/latest.zip > wordpress.zip
+unzip wordpress.zip | tar xf -
+rm -f wordpress.zip
 
 cd /srv/www/wordpress/wp-content/plugins
 wget -nv http://downloads.wordpress.org/plugin/sqlite-integration.1.5.zip
