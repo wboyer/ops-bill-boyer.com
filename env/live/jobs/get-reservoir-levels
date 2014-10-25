@@ -11,19 +11,15 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers class="vector">
     <hudson.triggers.TimerTrigger>
-      <spec>30 17 * * *</spec>
+      <spec>3 9,21 * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>. ~/.profile
-path=/vagrant-mnt/ops/scripts/infrastructure/aws
-host=root@54.186.166.111
-pem=~/.aws-pem
-$path/backup-mongodb $host $pem /www.bill-boyer.com/backups/mongodb
-$path/backup-sqlite $host $pem /srv/rails/www.bill-boyer.com/db/development.sqlite3 /www.bill-boyer.com/backups/rails
-$path/backup-sqlite $host $pem /srv/www/wordpress/wp-content/database/.ht.sqlite /www.bill-boyer.com/backups/wordpress
+curl &apos;http://www.nyc.gov/html/dep/html/drinking_water/maplevels_wide.shtml&apos; | gzip &gt; reservoirs.html.gz
+/vagrant-mnt/ops/scripts/infrastructure/aws/backup-file reservoirs.html.gz /www.bill-boyer.com/data/reservoirs
 </command>
     </hudson.tasks.Shell>
   </builders>
