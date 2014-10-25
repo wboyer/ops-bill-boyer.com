@@ -5,7 +5,7 @@ keyFile=$2
 file=$3
 backupDir=$4
 
-tmp=`mktemp`
+tmp=`mktemp -d`
 cd $tmp
 
 path='/vagrant-mnt/ops/scripts/infrastructure'

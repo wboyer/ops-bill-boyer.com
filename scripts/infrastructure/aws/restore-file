@@ -5,7 +5,7 @@ backupDir='s3:/'$2
 
 s3='aws s3 --endpoint-url https://s3.amazonaws.com'
 
-tmp=`mktemp`
+tmp=`mktemp /tmp/tmp.XXXXXXXXXX`
 $s3 cp ${backupDir}/latest $tmp
 backupFile=`cat $tmp`
 /bin/rm $tmp
