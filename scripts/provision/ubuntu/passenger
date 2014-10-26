@@ -1,0 +1,35 @@
+#!/bin/bash --noprofile
+
+if [ $# != 1 ] ;
+then
+	echo "Usage: passenger <app>"
+	exit 1
+fi
+
+app=$1
+
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
+apt-get -y install apt-transport-https
+
+cat > /etc/apt/sources.list.d/passenger.list <<EOF
+deb https://oss-binaries.phusionpassenger.com/apt/passenger precise main
+EOF
+
+apt-get -y update
+
+gem install passenger
+
+cat > /etc/rc.local <<EOF
+#!/bin/sh -e
+
+cd /srv/rails/$app
+passenger start --daemonize --port 81
+
+exit 0
+EOF
+
+mkdir /srv/rails
+cd /srv/rails
+rails new $app
+cd $app
+passenger start --daemonize --port 81
