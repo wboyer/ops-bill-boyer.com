@@ -18,5 +18,6 @@ $path/xvfb
 $path/selenium-python
 
 $path/aws-user root root /root
+$path/aws-user jenkins jenkins ~jenkins
 
 sudo -u jenkins $path/jenkins-user /vagrant/jobs
