@@ -1,0 +1,4 @@
+#!/bin/bash --noprofile
+
+apt-get install -y php5-sqlite
+service apache2 restart

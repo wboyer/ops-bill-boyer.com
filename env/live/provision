@@ -9,6 +9,7 @@ $path/base ops.bill-boyer.com live
 
 $path/ruby
 $path/rails
+$path/sqlite
 $path/jenkins $jenkins_password
 $path/aws
 $path/vagrant

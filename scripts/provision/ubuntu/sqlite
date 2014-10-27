@@ -13,8 +13,3 @@ cd /usr/lib/x86_64-linux-gnu/
 cp /usr/local/lib/libsqlite3.so.0.8.6 .
 ln -s libsqlite3.so.0.8.6 libsqlite3.so.0
 ln -s libsqlite3.so.0.8.6 libsqlite3.so
-
-gem install sqlite3
-
-apt-get install -y php5-sqlite
-service apache2 restart
