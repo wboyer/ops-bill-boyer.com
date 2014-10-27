@@ -1,0 +1,3 @@
+#!/bin/bash --noprofile
+
+curl -s 'http://www.bill-boyer.com/api/facts/browse/obj?q=g' | grep 'SVG' >& /dev/null
