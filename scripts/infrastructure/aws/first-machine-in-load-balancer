@@ -1,0 +1,9 @@
+#!/usr/bin/ruby
+
+require 'json'
+
+loadBalancerName = ARGV[0]
+
+instanceId = `aws elb describe-load-balancers --load-balancer-name #{loadBalancerName} | jq -s ".[0].LoadBalancerDescriptions[0].Instances[0].InstanceId"`
+
+puts instanceId[1, instanceId.length-1-2]
