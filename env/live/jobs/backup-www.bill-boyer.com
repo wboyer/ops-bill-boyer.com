@@ -18,9 +18,12 @@
   <builders>
     <hudson.tasks.Shell>
       <command>. ~/.profile
+
 path=/vagrant-mnt/ops/scripts/infrastructure/aws
-host=root@54.186.166.111
+instanceId=`$path/first-machine-in-load-balancer www-bill-boyer-com`
+host=root@`$path/instance-ip-address $instanceId`
 pem=~/.aws-pem
+
 $path/backup-mongodb $host $pem /www.bill-boyer.com/backups/mongodb
 $path/backup-sqlite $host $pem /srv/rails/www.bill-boyer.com/db/development.sqlite3 /www.bill-boyer.com/backups/rails
 $path/backup-sqlite $host $pem /srv/www/wordpress/wp-content/database/.ht.sqlite /www.bill-boyer.com/backups/wordpress
