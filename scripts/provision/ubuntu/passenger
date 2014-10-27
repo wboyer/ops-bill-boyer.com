@@ -17,7 +17,7 @@ EOF
 
 apt-get -y update
 
-gem install passenger
+gem install passenger --no-document
 
 cat > /etc/rc.local <<EOF
 #!/bin/sh -e

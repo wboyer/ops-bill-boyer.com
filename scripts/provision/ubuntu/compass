@@ -1,4 +1,4 @@
 #!/bin/bash --noprofile
 
-gem install compass
+gem install compass --no-document
 npm install -g grunt-contrib-compass

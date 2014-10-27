@@ -16,5 +16,5 @@ cd ruby-2.1.1
 make
 make install
 
-gem install unf
-gem install iconv
+gem install unf --no-document
+gem install iconv --no-document
