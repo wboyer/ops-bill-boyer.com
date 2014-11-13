@@ -1,3 +1,5 @@
+load 'vagrant-get-cached-image.rb'
+
 Vagrant.configure("2") do |config|
   config.vm.box = "aws"
 
@@ -7,7 +9,7 @@ Vagrant.configure("2") do |config|
     aws.region = "us-west-2"
     aws.keypair_name = "bill-boyer.com"
     aws.security_groups = ["bill-boyer.com"]
-    aws.ami = "ami-986bffa8"
+    aws.ami = $imageId
     aws.instance_type = "t1.micro"
 
     aws.tags = {
@@ -18,9 +20,11 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = ENV['AWS_PRIVATE_KEY_PATH']
   end
 
-  config.vm.provision :shell do |s|
-    s.path = "provision"
-    s.args = ENV['JENKINS_PASSWORD']
+  if $provision
+    config.vm.provision :shell do |s|
+      s.path = $provision
+      s.args = ENV['JENKINS_PASSWORD']
+    end
   end
 
   config.vm.synced_folder "../../scripts", "/vagrant-mnt/ops/scripts"

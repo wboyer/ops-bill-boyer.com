@@ -1,0 +1,11 @@
+#!/bin/bash
+
+hash=`./hash-provisioning-scripts`
+
+imageId=`$OPS/infrastructure/aws/image-by-name hash-$hash`
+
+if [ "$imageId" == "" ]
+then
+  instanceId=`cat .vagrant/machines/1/aws/id`
+  $OPS/infrastructure/aws/create-image hash-$hash $instanceId ops.bill-boyer.com
+fi

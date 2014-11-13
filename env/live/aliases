@@ -1,4 +1,3 @@
-alias create='vagrant up --provider=aws 1'
 alias destroy='vagrant destroy -f 1'
-alias bounce='../../scripts/infrastructure/aws/cycle-machines ops.bill-boyer.com ops-bill-boyer-com true 0 1'
-alias cycle='../../scripts/infrastructure/aws/cycle-machines ops.bill-boyer.com ops-bill-boyer-com false 0 1'
+alias bounce='$OPS/infrastructure/aws/cycle-machines ops.bill-boyer.com ops-bill-boyer-com true 0 1'
+alias cycle='$OPS/infrastructure/aws/cycle-machines ops.bill-boyer.com ops-bill-boyer-com false 0 1; ./create-cached-image'

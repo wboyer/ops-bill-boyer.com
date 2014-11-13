@@ -1,11 +1,12 @@
 #!/bin/bash
 
-path=/vagrant-mnt/ops/scripts/provision/ubuntu
+ops=/vagrant-mnt/ops/scripts
+path=$ops/provision/ubuntu
 
 jenkins_password=$1
 
 $path/swap 2048
-$path/base ops.bill-boyer.com live
+$path/base ops.bill-boyer.com live $ops
 
 $path/ruby
 $path/rails

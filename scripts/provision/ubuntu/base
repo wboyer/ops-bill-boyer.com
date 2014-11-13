@@ -1,13 +1,14 @@
 #!/bin/bash --noprofile
 
-if [ $# != 2 ] ;
+if [ $# != 3 ] ;
 then
-	echo "Usage: base <site> <env>"
+	echo "Usage: base <site> <env> <path to ops>"
 	exit 1
 fi
 
 site=$1
 env=$2
+ops=$3
 
 /bin/rm -f /var/lib/apt/lists/lock 
 /bin/rm -f /var/cache/apt/archives/lock
@@ -29,4 +30,5 @@ cat >> ~/.profile <<EOF
 export PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@$site($env):\w:: "
 alias rmt='rm -f *~'
 alias h='history'
+export OPS=$ops
 EOF
