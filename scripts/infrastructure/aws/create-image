@@ -1,0 +1,16 @@
+#!/usr/bin/ruby
+
+require 'json'
+
+name = ARGV[0]
+instanceId = ARGV[1]
+nameTag = ARGV[2]
+
+if !name || !instanceId || !nameTag
+   puts "Usage: create-image <name> <instanceId> <name tag>"
+   exit 1
+end
+
+imageId = JSON.parse(`aws ec2 create-image --name #{name} --instance-id #{instanceId}`)["ImageId"]
+
+response = `aws ec2 create-tags --resource #{imageId} --tags Key=Name,Value=#{nameTag}`

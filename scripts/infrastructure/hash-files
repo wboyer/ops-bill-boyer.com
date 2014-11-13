@@ -1,0 +1,14 @@
+#!/bin/bash
+
+tmp=`mktemp /tmp/tmp.XXXXXXXXXX`
+
+for arg in $@
+do
+  find $arg -exec ls -lat {} \; >> $tmp
+done
+
+hash=`cat $tmp | /usr/bin/openssl md5`
+
+echo -n $hash
+
+rm -f $tmp

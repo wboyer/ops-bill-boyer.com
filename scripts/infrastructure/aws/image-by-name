@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+require 'json'
+
+name = ARGV[0]
+
+if !name
+   puts "Usage: image-by-name <name>"
+   exit 1
+end
+
+images = JSON.parse(`aws ec2 describe-images --owners self`)["Images"]
+
+for image in images
+  if image["Name"] == name
+    print image["ImageId"]
+    exit 0
+  end
+end
