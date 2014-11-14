@@ -4,7 +4,7 @@ tmp=`mktemp /tmp/tmp.XXXXXXXXXX`
 
 for arg in $@
 do
-  find $arg -exec ls -lat {} \; >> $tmp
+  find $arg -type f -not -name '*~' -exec cat {} >> $tmp \;
 done
 
 hash=`cat $tmp | /usr/bin/openssl md5`
