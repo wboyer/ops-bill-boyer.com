@@ -7,7 +7,7 @@ do
   find $arg -type f -not -name '*~' -exec cat {} >> $tmp \;
 done
 
-hash=`cat $tmp | /usr/bin/openssl md5`
+hash=`cat $tmp | /usr/bin/openssl md5 | sed -e 's/.* //'`
 
 echo -n $hash
 
