@@ -24,7 +24,7 @@ cat > /etc/rc.local <<EOF
 
 cd /srv/rails/$app
 passenger stop --port 81 --pid-file /tmp/passenger.81.pid
-passenger start --daemonize --port 81 --pid-file /tmp/passenger.81.pid
+RAILS_ENV=production passenger start --daemonize --port 81 --pid-file /tmp/passenger.81.pid
 
 exit 0
 EOF
