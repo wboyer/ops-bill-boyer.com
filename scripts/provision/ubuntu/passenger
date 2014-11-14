@@ -20,16 +20,19 @@ apt-get -y update
 gem install passenger --no-document
 
 cat > /etc/rc.local <<EOF
-#!/bin/sh -e
+#!/bin/sh
 
 cd /srv/rails/$app
-passenger start --daemonize --port 81
+passenger stop --port 81 --pid-file /tmp/passenger.81.pid
+passenger start --daemonize --port 81 --pid-file /tmp/passenger.81.pid
 
 exit 0
 EOF
+
+chmod +x /etc/rc.local
 
 mkdir /srv/rails
 cd /srv/rails
 rails new $app
 cd $app
-passenger start --daemonize --port 81
+/etc/rc.local
