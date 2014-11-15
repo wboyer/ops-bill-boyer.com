@@ -1,21 +1,21 @@
 #!/bin/bash --noprofile
 
-cd /srv/www
+cd /srv
 /bin/rm -rf wordpress
 
 curl -L -s http://wordpress.org/latest.zip > wordpress.zip
 unzip wordpress.zip | tar xf -
 rm -f wordpress.zip
 
-cd /srv/www/wordpress/wp-content/plugins
+cd /srv/wordpress/wp-content/plugins
 wget -nv http://downloads.wordpress.org/plugin/sqlite-integration.1.5.zip
 unzip sqlite-integration.1.5.zip
 /bin/rm sqlite-integration.1.5.zip
 cp sqlite-integration/db.php ..
 
-cd /srv/www/wordpress
+cd /srv/wordpress
 mv wp-config-sample.php wp-config.php
 sed -i -e "s/define('WP_DEBUG', false);/define('WP_DEBUG', false);\n\ndefine('USE_MYSQL', false);\ndefine('DB_FILE', 'db.sqlite');/" wp-config.php
 
-cd /srv/www
+cd /srv
 chown -R www-data wordpress

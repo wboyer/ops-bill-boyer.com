@@ -62,7 +62,7 @@ def createMachine()
       system("vagrant up #{machine} --provider=aws")
 
       if machine == 1
-        ./create-cached-image
+        system("./create-cached-image")
       end
 
       system("vagrant ssh -c /vagrant/deploy #{machine}")

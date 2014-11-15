@@ -6,7 +6,7 @@
   <properties/>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers class="vector">
@@ -26,7 +26,7 @@ pem=~/.aws-pem
 
 $path/backup-mongodb $host $pem /www.bill-boyer.com/backups/mongodb
 $path/backup-sqlite $host $pem /srv/rails/www.bill-boyer.com/db/development.sqlite3 /www.bill-boyer.com/backups/rails
-$path/backup-sqlite $host $pem /srv/www/wordpress/wp-content/database/.ht.sqlite /www.bill-boyer.com/backups/wordpress
+$path/backup-sqlite $host $pem /srv/wordpress/wp-content/database/.ht.sqlite /www.bill-boyer.com/backups/wordpress
 </command>
     </hudson.tasks.Shell>
   </builders>
