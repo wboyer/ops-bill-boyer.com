@@ -9,7 +9,7 @@ s3='aws s3 --endpoint-url https://s3.amazonaws.com'
 
 $s3 cp $file $backupFile
 
-tmp=`mktemp`
+tmp=`mktemp /tmp/tmp.XXXXXXXXXX`
 echo -n $backupFile > $tmp
 $s3 cp $tmp ${backupDir}/latest
 /bin/rm $tmp

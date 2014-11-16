@@ -4,7 +4,7 @@ cd /srv
 /bin/rm -rf wordpress
 
 curl -L -s http://wordpress.org/latest.zip > wordpress.zip
-unzip wordpress.zip | tar xf -
+unzip wordpress.zip
 rm -f wordpress.zip
 
 cd /srv/wordpress/wp-content/plugins
