@@ -59,13 +59,14 @@ def createMachine()
       puts "creating machine #{machine}..."
       system("/bin/rm -f .vagrant/machines/#{machine}/aws/id")
 
-      system("vagrant up #{machine} --provider=aws")
-
-      if machine == 1
-        system("./create-cached-image")
+      if system("vagrant up #{machine} --provider=aws")
+        if machine == 1
+          system("./create-cached-image")
+        end
+        system("vagrant ssh -c /vagrant/deploy #{machine}")
+      else
+        exit 1
       end
-
-      system("vagrant ssh -c /vagrant/deploy #{machine}")
 
       awsId = `cat .vagrant/machines/#{machine}/aws/id`
       $awsInstances[awsId] = "new"
