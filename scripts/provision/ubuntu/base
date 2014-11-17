@@ -10,6 +10,8 @@ site=$1
 env=$2
 ops=$3
 
+sleep 60
+
 /bin/rm -f /var/lib/apt/lists/lock 
 /bin/rm -f /var/cache/apt/archives/lock
 /bin/rm -f /var/lib/dpkg/lock
