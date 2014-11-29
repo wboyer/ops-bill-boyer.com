@@ -1,0 +1,14 @@
+#!/bin/bash --noprofile
+
+if [ $# != 2 ] ;
+then
+	echo "Usage: prompt <site> <env>"
+	exit 1
+fi
+
+site=$1
+env=$2
+
+cat >> ~/.profile <<EOF
+export PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@$site($env):\w:: "
+EOF
