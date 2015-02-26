@@ -1,10 +1,13 @@
 #!/bin/bash --noprofile
 
-dd if=/dev/zero of=/swapfile bs=1M count=$1
-mkswap /swapfile
-swapon /swapfile
+file=/mnt/swapfile
+size=$1
+
+dd if=/dev/zero of=$file bs=1M count=$size
+mkswap $file
+swapon $file
 
 echo >> /etc/fstab
 cat >> /etc/fstab <<EOF
-/swapfile swap swap defaults 0 0
+$file swap swap defaults 0 0
 EOF
