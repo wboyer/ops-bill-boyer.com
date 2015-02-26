@@ -1,20 +1,28 @@
-#!/bin/bash --noprofile
+#!/bin/bash
 
 apt-get install -y libssl-dev
 apt-get install -y libreadline-dev
 apt-get install -y zlib1g-dev
 
-cd /tmp
-/bin/rm -rf ruby
-mkdir ruby
-cd ruby
+set +e
+ruby --version | grep '2\.1\.1p76' >& /dev/null
+status=$?
+set -e
 
-wget -nv http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.1.tar.gz
-gunzip < ruby-2.1.1.tar.gz | tar xf -
-cd ruby-2.1.1
-./configure --prefix=/usr
-make
-make install
+if [ $status != 0 ] ;
+then
+	cd /tmp
+	/bin/rm -rf ruby
+	mkdir ruby
+	cd ruby
+
+	wget -nv http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.1.tar.gz
+	gunzip < ruby-2.1.1.tar.gz | tar xf -
+	cd ruby-2.1.1
+	./configure --prefix=/usr
+	make
+	make install
+fi
 
 gem install unf --no-document
 gem install iconv --no-document
