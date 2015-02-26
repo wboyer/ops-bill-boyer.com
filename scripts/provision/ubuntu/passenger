@@ -33,6 +33,6 @@ chmod +x /etc/rc.local
 
 mkdir /srv/rails
 cd /srv/rails
-rails new $app
+rails new $app -f
 cd $app
 /etc/rc.local
