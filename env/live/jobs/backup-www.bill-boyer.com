@@ -25,7 +25,7 @@ host=root@`$path/instance-ip-address $instanceId`
 pem=~/.aws-pem
 
 $path/backup-mongodb $host $pem /www.bill-boyer.com/backups/mongodb
-$path/backup-sqlite $host $pem /srv/rails/www.bill-boyer.com/db/development.sqlite3 /www.bill-boyer.com/backups/rails
+$path/backup-sqlite $host $pem /srv/rails/www.bill-boyer.com/db/production.sqlite3 /www.bill-boyer.com/backups/rails
 $path/backup-sqlite $host $pem /srv/wordpress/wp-content/database/db.sqlite /www.bill-boyer.com/backups/wordpress
 </command>
     </hudson.tasks.Shell>
